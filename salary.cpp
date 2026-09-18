@@ -1,30 +1,33 @@
 #include <iostream>
-#include <limits> // Required for numeric_limits
 using namespace std;
 
 int main() {
-	const int size = 20;
-	int salArray[size];
+    const int size = 20;
 
-	for (int i = 0; i < size; i++) {
-		cout << "Enter Salary for employee " << (i + 1) << ": ";
-		cin >> salArray[i];
-	}
+    // Dynamically allocate array memory on the heap using a pointer
+    int *salArray = new int[size];
 
-	for (int i = 0; i < size; i++) {
-		salArray[i] = salArray[i] + (salArray[i] / 10);
-	}
+    // Input salaries using pointer indexing
+    for (int i = 0; i < size; i++) {
+        cout << "Enter Salary for employee " << (i + 1) << ": ";
+        cin >> salArray[i]; // Can also be written as: cin >> *(salArray + i);
+    }
 
-	cout << "\nUpdated Salaries: ";
-	for (int i = 0; i < size; i++) {
-		cout << salArray[i] << " ";
-	}
-	cout << endl;
+    // Update salaries (10% increase)
+    for (int i = 0; i < size; i++) {
+        salArray[i] = salArray[i] + (salArray[i] / 10);
+    }
 
-	// PREVENT WINDOW FROM CLOSING AUTOMATICALLY
-	cout << "\nPress Enter to exit...";
-	cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear residual input newline
-	cin.get(); // Waits for you to hit Enter before closing
+    // Display updated salaries
+    cout << "\nUpdated Salaries: ";
+    for (int i = 0; i < size; i++) {
+        cout << salArray[i] << " ";
+    }
+    cout << endl;
 
-	return 0;
+    // Free the dynamically allocated heap memory to prevent memory leaks
+    delete[] salArray;
+    salArray = nullptr; // Reset pointer to avoid dangling references
+
+    return 0;
 }
